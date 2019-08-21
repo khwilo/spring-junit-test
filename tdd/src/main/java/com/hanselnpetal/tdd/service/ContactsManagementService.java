@@ -17,7 +17,12 @@ public class ContactsManagementService {
     }
 
     public CustomerContact add(CustomerContact customerContact) {
-        CustomerContact newContact = customerContactRepository.save(customerContact);
+        CustomerContact newContact = null;
+
+        if (customerContact.getFirstName() != null) {
+            newContact = customerContactRepository.save(customerContact);
+        }
+
         return newContact;
     }
 }
