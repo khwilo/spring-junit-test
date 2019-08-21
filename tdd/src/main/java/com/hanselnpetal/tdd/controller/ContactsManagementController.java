@@ -5,8 +5,9 @@ import com.hanselnpetal.tdd.service.ContactsManagementService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+// import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -20,13 +21,27 @@ public class ContactsManagementController {
         this.contactsManagementService = contactsManagementService;
     }
 
+    // COMMENT OUT THIS CODE FOR THE CONTACTS MANAGEMENT CONTROLLER INTEGRATION TEST
+    // TO PASS
+    // @PostMapping
+    // public String processAddContactSubmit(@RequestBody CustomerContact
+    // customerContact) {
+    // CustomerContact newContact = contactsManagementService.add(customerContact);
+
+    // if (newContact != null) {
+    // return "success";
+    // }
+    // return "failure";
+    // }
+
+    // THIS WORKS FOR THE CONTACTS MANAGEMENT CONTROLLER UNIT TEST
     @PostMapping
-    public String processAddContactSubmit(@RequestBody CustomerContact customerContact) {
+    public String processAddContactSubmit(@ModelAttribute CustomerContact customerContact) {
         CustomerContact newContact = contactsManagementService.add(customerContact);
 
         if (newContact != null) {
-            return "success";
+            return "/addContactForm";
         }
-        return "failure";
+        return "redirect:/showAddContact";
     }
 }
