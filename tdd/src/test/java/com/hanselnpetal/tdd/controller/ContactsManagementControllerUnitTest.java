@@ -53,4 +53,18 @@ public class ContactsManagementControllerUnitTest {
         // simulate the form submit (POST)
         mockMvc.perform(post("/addContact", aContact)).andExpect(status().isOk()).andReturn();
     }
+
+    @Test
+    public void testAddContactBizServiceRuleNoSatisfied() throws Exception {
+        // setup a mock response of NULL object returned from the mock service component
+        when(contactsManagementService.add(any(CustomerContact.class))).thenReturn(null);
+
+        // simulate the form bean that would POST from the web page
+        // NOTE that the first name is missing
+        CustomerContact aContact = new CustomerContact();
+        aContact.setLastName("Johnson");
+
+        // simulate the form submit (POST)
+        mockMvc.perform(post("/addContact", aContact)).andExpect(status().is(302)).andReturn();
+    }
 }
